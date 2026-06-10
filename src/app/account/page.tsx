@@ -12,7 +12,7 @@ export default function AccountPage() {
         description="View and manage your personal profile information."
       />
 
-      <div className="mt-8 max-w-2xl">
+      <div className="mt-8 max-w-2xl mx-auto">
         <Card className="p-8 flex flex-col items-center text-center justify-center space-y-4">
            <div className="h-24 w-24 rounded-full bg-[var(--color-brand-primary)]/10 text-[var(--color-brand-primary)] flex items-center justify-center text-3xl font-bold border-4 border-white shadow-lg">
              A

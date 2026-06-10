@@ -38,7 +38,7 @@ export default function AddLeadPage() {
         description="Create a new lead entry."
         breadcrumbs={[{ label: "Leads", href: "/leads" }, { label: "Add Lead" }]}
       />
-      <div className="max-w-2xl mt-6">
+      <div className="max-w-2xl mt-6 mx-auto">
         <Card className="p-6">
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-6">

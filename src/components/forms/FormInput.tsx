@@ -30,8 +30,8 @@ const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           className={cn(
-            "flex h-10 w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-[13px] font-medium text-slate-900 shadow-sm ring-offset-white transition-all placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/5 focus-visible:border-primary/30 disabled:cursor-not-allowed disabled:opacity-50",
-            error && "border-rose-300 focus-visible:ring-rose-50 focus-visible:border-rose-400",
+            "flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 transition-colors placeholder:text-slate-400 focus-visible:outline-none focus-visible:border-[var(--color-brand-primary)] focus-visible:ring-1 focus-visible:ring-[var(--color-brand-primary)] disabled:cursor-not-allowed disabled:opacity-50",
+            error && "border-rose-400 focus-visible:border-rose-400 focus-visible:ring-rose-400",
             className
           )}
           {...register(name)}

@@ -32,7 +32,7 @@ export default function AddExmillPage() {
         description="Create a new ex-mill rate entry."
         breadcrumbs={[{ label: "ExMill", href: "/exmill" }, { label: "Add Rate" }]}
       />
-      <div className="max-w-2xl mt-6">
+      <div className="max-w-2xl mt-6 mx-auto">
         <Card className="p-6">
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-6">

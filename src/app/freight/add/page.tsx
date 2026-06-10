@@ -31,7 +31,7 @@ export default function AddFreightPage() {
         description="Create a new freight rate entry."
         breadcrumbs={[{ label: "Freight", href: "/freight" }, { label: "Add Freight" }]}
       />
-      <div className="max-w-2xl mt-6">
+      <div className="max-w-2xl mt-6 mx-auto">
         <Card className="p-6">
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-6">

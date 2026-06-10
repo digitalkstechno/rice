@@ -28,7 +28,7 @@ export default function SettingsPage() {
         description="Manage system configurations and application preferences."
       />
 
-      <div className="mt-8 max-w-2xl">
+      <div className="mt-8 max-w-2xl mx-auto">
         <Card className="p-6">
           <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-6">
