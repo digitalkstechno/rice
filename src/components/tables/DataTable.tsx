@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronLeft, ChevronRight, Search, SlidersHorizontal } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Search, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/common/Button";
 import { cn } from "@/lib/utils";
 
@@ -81,13 +81,13 @@ export function DataTable<TData, TValue>({
       <div className="rounded-2xl border border-slate-200/60 bg-white overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md">
         <div className="overflow-x-auto custom-scrollbar">
           <table className="w-full text-left border-collapse">
-            <thead className="bg-slate-50/50 border-b border-slate-200/60 sticky top-0 z-10 backdrop-blur-md">
+            <thead className="bg-slate-50/50 border-b border-[var(--color-brand-table-border)] sticky top-0 z-10 backdrop-blur-md">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
                     <th
                       key={header.id}
-                      className="h-14 px-6 text-[11px] font-bold text-slate-400 uppercase tracking-[0.1em] whitespace-nowrap"
+                      className="h-14 px-6 text-[11px] font-bold text-[var(--color-brand-table-header)] uppercase tracking-[0.1em] whitespace-nowrap"
                     >
                       {header.isPlaceholder
                         ? null
@@ -107,7 +107,7 @@ export function DataTable<TData, TValue>({
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                     className={cn(
-                      "group transition-all duration-200 hover:bg-slate-50/80 data-[state=selected]:bg-primary/5",
+                      "group transition-all duration-200 hover:bg-[var(--color-brand-table-hover)] data-[state=selected]:bg-[var(--color-brand-primary)]/5",
                       onRowClick && "cursor-pointer"
                     )}
                     onClick={() => onRowClick?.(row.original)}
@@ -136,36 +136,68 @@ export function DataTable<TData, TValue>({
         </div>
       </div>
 
-      <div className="flex items-center justify-between px-2 py-2">
-        <div className="text-[13px] font-bold text-slate-400">
-          Showing <span className="text-slate-900 font-extrabold">{table.getFilteredRowModel().rows.length}</span> results
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-4 py-3 bg-slate-50/50 border-t border-slate-200/60 rounded-b-2xl">
+        <div className="flex items-center gap-2 text-[13px] font-bold text-slate-500">
+          Page Size: 
+          <select
+            value={table.getState().pagination.pageSize}
+            onChange={(e) => {
+              table.setPageSize(Number(e.target.value));
+            }}
+            className="h-8 rounded-lg border border-slate-200 bg-white px-2 py-1 text-[13px] font-medium text-slate-700 shadow-sm outline-none focus-visible:ring-2 focus-visible:ring-primary/20"
+          >
+            {[10, 20, 30, 40, 50].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                {pageSize}
+              </option>
+            ))}
+          </select>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5">
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-9 w-9 p-0 rounded-xl"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              <ChevronLeft size={18} />
-            </Button>
-            <div className="flex items-center gap-1.5 px-3 h-9 rounded-xl border border-slate-200 bg-white text-[13px] font-bold text-slate-700 shadow-sm">
-              <span className="text-primary">{table.getState().pagination.pageIndex + 1}</span>
-              <span className="text-slate-300">/</span>
-              <span>{table.getPageCount()}</span>
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-9 w-9 p-0 rounded-xl"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              <ChevronRight size={18} />
-            </Button>
+        
+        <div className="text-[13px] font-semibold text-slate-500">
+          {table.getFilteredRowModel().rows.length === 0 ? 0 : table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} to {Math.min((table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize, table.getFilteredRowModel().rows.length)} of {table.getFilteredRowModel().rows.length}
+        </div>
+
+        <div className="flex items-center gap-1.5">
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 w-8 p-0 rounded-lg border-slate-200 bg-white hover:bg-slate-50 shadow-sm text-slate-500"
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <ChevronsLeft size={16} />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 w-8 p-0 rounded-lg border-slate-200 bg-white hover:bg-slate-50 shadow-sm text-slate-500"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <ChevronLeft size={16} />
+          </Button>
+          <div className="flex items-center justify-center px-3 h-8 rounded-lg border border-slate-200 bg-white text-[13px] font-bold text-slate-700 shadow-sm min-w-[100px]">
+            Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount() || 1}
           </div>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 w-8 p-0 rounded-lg border-slate-200 bg-white hover:bg-slate-50 shadow-sm text-slate-500"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            <ChevronRight size={16} />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 w-8 p-0 rounded-lg border-slate-200 bg-white hover:bg-slate-50 shadow-sm text-slate-500"
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+          >
+            <ChevronsRight size={16} />
+          </Button>
         </div>
       </div>
     </div>

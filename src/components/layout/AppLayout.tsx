@@ -19,8 +19,8 @@ export function AppLayout({ children, className }: AppLayoutProps) {
       <Sidebar />
       <div className="flex flex-col flex-1 min-w-0 relative">
         <Header />
-        <main className={cn("flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 lg:p-8", className)}>
-          <div className="mx-auto max-w-7xl">
+        <main className={cn("flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 lg:p-6", className)}>
+          <div className="mx-auto w-full">
             <AnimatePresence mode="wait">
               <motion.div
                 key={pathname}

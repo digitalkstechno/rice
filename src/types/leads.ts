@@ -1,15 +1,14 @@
-export type LeadStatus = "New" | "Contacted" | "Quoted" | "Converted" | "Lost";
-
 export interface Lead {
   id: string;
-  customerName: string;
-  mobileNumber: string;
-  companyName: string;
+  timestamp: string;
+  phone: string;
+  name: string;
+  company: string;
   country: string;
-  riceVariety: string;
-  riceForm: string;
-  quantity: string;
-  priceType: "FOB" | "CIF";
-  status: LeadStatus;
-  createdAt: string;
+  priceType: string;
+  variety: string;
+  form: string;
+  size: string;
+  packType: string;
+  cifCountry: string;
 }

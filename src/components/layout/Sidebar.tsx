@@ -2,22 +2,12 @@
 
 import { cn } from "@/lib/utils";
 import {
-  LayoutDashboard,
   Users,
-  Calculator,
-  FileText,
-  Settings,
-  BarChart3,
   Ship,
-  Globe,
   LogOut,
   ChevronLeft,
   ChevronRight,
-  Package,
-  History,
-  ShieldCheck,
-  Download,
-  Upload,
+  Factory,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -25,22 +15,9 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const menuItems = [
-  { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
   { icon: Users, label: "Leads", href: "/leads" },
-  { icon: Calculator, label: "Price Calculator", href: "/calculator" },
-  { icon: FileText, label: "Quotations", href: "/quotations" },
-  { label: "Inventory", isHeader: true },
-  { icon: Package, label: "Rice Masters", href: "/masters/rice" },
+  { icon: Factory, label: "ExMill", href: "/exmill" },
   { icon: Ship, label: "Freight", href: "/freight" },
-  { icon: Globe, label: "Masters", href: "/masters" },
-  { label: "Operations", isHeader: true },
-  { icon: History, label: "Sessions", href: "/sessions" },
-  { icon: Upload, label: "Import Center", href: "/import" },
-  { icon: Download, label: "Export Center", href: "/export" },
-  { icon: BarChart3, label: "Reports", href: "/reports" },
-  { label: "Admin", isHeader: true },
-  { icon: ShieldCheck, label: "Permissions", href: "/permissions" },
-  { icon: Settings, label: "Settings", href: "/settings" },
 ];
 
 export function Sidebar() {
@@ -62,18 +39,18 @@ export function Sidebar() {
               exit={{ opacity: 0 }}
               className="flex items-center gap-3"
             >
-              <div className="h-9 w-9 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-bold shadow-lg shadow-primary/20">
+              <div className="h-9 w-9 rounded-xl bg-white flex items-center justify-center text-[#1E3A8A] font-bold shadow-lg shadow-black/10">
                 R
               </div>
               <span className="text-xl font-extrabold text-white tracking-tight">
-                Rise<span className="text-primary">CRM</span>
+                Rise<span className="text-white/80 font-medium">CRM</span>
               </span>
             </motion.div>
           )}
         </AnimatePresence>
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="p-2 rounded-lg text-slate-500 hover:text-slate-300 hover:bg-slate-900 transition-all border border-transparent hover:border-slate-800"
+          className="p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-all border border-transparent hover:border-white/20"
         >
           {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
         </button>
@@ -85,12 +62,12 @@ export function Sidebar() {
             return !collapsed ? (
               <div
                 key={`header-${idx}`}
-                className="px-3 pt-6 pb-2 text-[10px] font-bold text-slate-500 uppercase tracking-[0.1em]"
+                className="px-3 pt-6 pb-2 text-[10px] font-bold text-white/50 uppercase tracking-[0.1em]"
               >
                 {item.label}
               </div>
             ) : (
-              <div key={`header-${idx}`} className="h-px bg-slate-900 my-6 mx-2" />
+              <div key={`header-${idx}`} className="h-px bg-white/10 my-6 mx-2" />
             );
           }
 
@@ -104,8 +81,8 @@ export function Sidebar() {
               className={cn(
                 "group flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl transition-all relative duration-200",
                 isActive
-                  ? "bg-primary/10 text-primary shadow-[0_1px_2px_0_rgba(0,0,0,0.02)]"
-                  : "text-slate-400 hover:bg-slate-900/50 hover:text-white",
+                  ? "bg-white/20 text-white shadow-md shadow-black/10"
+                  : "text-white/60 hover:bg-white/10 hover:text-white",
                 collapsed && "justify-center px-0"
               )}
             >
@@ -113,13 +90,13 @@ export function Sidebar() {
                 size={19}
                 className={cn(
                   "shrink-0 transition-colors",
-                  isActive ? "text-primary" : "text-slate-500 group-hover:text-slate-350"
+                  isActive ? "text-white" : "text-white/60 group-hover:text-white"
                 )}
               />
               {!collapsed && (
                 <span className={cn(
                   "text-[13.5px] font-semibold tracking-tight transition-colors",
-                  isActive ? "text-primary" : "text-slate-400 group-hover:text-white"
+                  isActive ? "text-white" : "text-white/60 group-hover:text-white"
                 )}>
                   {item.label}
                 </span>
@@ -127,22 +104,22 @@ export function Sidebar() {
               {isActive && !collapsed && (
                 <motion.div
                   layoutId="sidebar-active"
-                  className="absolute left-0 w-1 h-5 bg-primary rounded-r-full"
+                  className="absolute left-0 w-1 h-5 bg-white rounded-r-full shadow-[0_0_8px_rgba(255,255,255,0.5)]"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
               )}
               {!isActive && !collapsed && (
-                 <div className="absolute inset-0 rounded-xl border border-transparent group-hover:border-slate-800/50 pointer-events-none" />
+                 <div className="absolute inset-0 rounded-xl border border-transparent group-hover:border-white/10 pointer-events-none" />
               )}
             </Link>
           );
         })}
       </nav>
 
-      <div className="p-5 border-t border-slate-900 bg-slate-950">
+      <div className="p-5 border-t border-white/10 bg-black/10">
         <button
           className={cn(
-            "flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-slate-400 hover:bg-rose-950/20 hover:text-rose-450 transition-all font-semibold text-[13.5px] border border-transparent hover:border-rose-900/30",
+            "flex items-center gap-3 w-full px-3.5 py-2.5 rounded-xl text-white/60 hover:bg-rose-500/20 hover:text-rose-200 transition-all font-semibold text-[13.5px] border border-transparent hover:border-rose-500/30",
             collapsed && "justify-center px-0"
           )}
         >
