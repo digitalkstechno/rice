@@ -7,7 +7,7 @@ export interface SelectProps {
   label?: string;
   name: string;
   options: { label: string; value: string | number }[];
-  rules?: any;
+  rules?: Record<string, unknown>;
   className?: string;
   placeholder?: string;
   isDisabled?: boolean;
@@ -60,8 +60,8 @@ function CustomSelect({
   disabled,
   className,
 }: {
-  value: any;
-  onChange: (val: any) => void;
+  value: string | number | undefined;
+  onChange: (val: string | number) => void;
   options: { label: string; value: string | number }[];
   placeholder: string;
   error: boolean;

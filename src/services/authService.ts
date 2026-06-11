@@ -19,7 +19,7 @@ export interface MeResponse {
 }
 
 export const authService = {
-  login: async (credentials: any): Promise<LoginResponse> => {
+  login: async (credentials: Record<string, unknown>): Promise<LoginResponse> => {
     const response = await apiClient.post(endPointApi.authLogin, credentials);
     return response as unknown as LoginResponse; // apiClient returns response.data
   },

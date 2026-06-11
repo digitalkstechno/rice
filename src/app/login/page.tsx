@@ -19,7 +19,7 @@ export default function LoginPage() {
     },
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: Record<string, unknown>) => {
     setIsLoading(true);
     try {
       const res = await authService.login(data);
@@ -37,8 +37,9 @@ export default function LoginPage() {
       } else {
         toast.error("Invalid credentials.");
       }
-    } catch (error: any) {
-      toast.error(error?.error || "Login failed. Please check your credentials.");
+    } catch (error: unknown) {
+      const err = error as { error?: string };
+      toast.error(err?.error || "Login failed. Please check your credentials.");
     } finally {
       setIsLoading(false);
     }

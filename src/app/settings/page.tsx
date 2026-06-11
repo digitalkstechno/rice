@@ -45,7 +45,7 @@ export default function SettingsPage() {
     },
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: Record<string, unknown>) => {
     console.log("Saved Settings:", data);
     alert("Settings saved successfully!");
   };

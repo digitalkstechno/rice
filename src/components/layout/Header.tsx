@@ -2,6 +2,7 @@
 
 import { Bell, Search, User, Moon, Sun, Command, Settings, LogOut } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -9,7 +10,7 @@ import { usePathname } from "next/navigation";
 
 export function Header() {
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const { logout } = useAuth();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -31,8 +32,6 @@ export function Header() {
   };
 
   useEffect(() => {
-    setMounted(true);
-
     // Close dropdown on click outside
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -108,13 +107,15 @@ export function Header() {
                   <Settings size={16} className="text-slate-400" /> Settings
                 </Link>
                 <div className="h-px bg-slate-100 my-1.5 mx-3" />
-                <Link
-                  href="/login"
-                  onClick={() => setIsProfileOpen(false)}
-                  className="flex items-center gap-3 px-4 py-2.5 text-[13.5px] font-semibold text-rose-600 hover:bg-rose-50 transition-colors"
+                <button
+                  onClick={() => {
+                    setIsProfileOpen(false);
+                    logout();
+                  }}
+                  className="flex items-center gap-3 px-4 py-2.5 text-[13.5px] w-full text-left font-semibold text-rose-600 hover:bg-rose-50 transition-colors"
                 >
                   <LogOut size={16} className="text-rose-500" /> Sign out
-                </Link>
+                </button>
               </motion.div>
             )}
           </AnimatePresence>

@@ -16,7 +16,14 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 
-const menuItems = [
+interface MenuItem {
+  icon?: React.ElementType;
+  label: string;
+  href?: string;
+  isHeader?: boolean;
+}
+
+const menuItems: MenuItem[] = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/" },
   { icon: Users, label: "Leads", href: "/leads" },
   { icon: Factory, label: "ExMill", href: "/exmill" },
@@ -62,7 +69,7 @@ export function Sidebar() {
 
       <nav className="flex-1 overflow-y-auto py-8 px-4 space-y-1.5 custom-scrollbar">
         {menuItems.map((item, idx) => {
-          if ((item as any).isHeader) {
+          if (item.isHeader) {
             return !collapsed ? (
               <div
                 key={`header-${idx}`}
@@ -75,13 +82,13 @@ export function Sidebar() {
             );
           }
 
-          const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+          const isActive = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href || "");
           const Icon = item.icon!;
 
           return (
             <Link
               key={item.href}
-              href={item.href!}
+              href={item.href || "#"}
               className={cn(
                 "group flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl transition-all relative duration-200",
                 isActive

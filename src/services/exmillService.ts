@@ -24,7 +24,7 @@ export const exmillService = {
       url += `?${queryParams.toString()}`;
     }
     
-    const response = await apiClient.get(url) as any;
+    const response = await apiClient.get(url) as { data: ExMill[], totalPages: number, total: number };
     return response;
   },
   getById: async (id: string) => {

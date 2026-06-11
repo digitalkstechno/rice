@@ -23,7 +23,7 @@ export const leadService = {
       url += `?${queryParams.toString()}`;
     }
 
-    const response = await apiClient.get(url) as any;
+    const response = await apiClient.get(url) as { data: Lead[], totalPages: number, total: number };
     return response;
   },
   getById: async (id: string) => {
