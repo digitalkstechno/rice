@@ -11,18 +11,18 @@ export function TableActions({ editUrl, onDelete }: TableActionsProps) {
     <div className="flex items-center gap-2">
       <Link href={editUrl}>
         <button 
-          className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all" 
+          className="p-1.5 bg-blue-50 border border-blue-100 text-blue-500 hover:bg-blue-100 hover:text-blue-600 rounded-md transition-colors" 
           title="Edit"
         >
-          <Edit2 size={16} />
+          <Edit2 size={15} strokeWidth={2.5} />
         </button>
       </Link>
       <button 
         onClick={onDelete}
-        className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
+        className="p-1.5 bg-red-50 border border-red-100 text-red-500 hover:bg-red-100 hover:text-red-600 rounded-md transition-colors"
         title="Delete"
       >
-        <Trash2 size={16} />
+        <Trash2 size={15} strokeWidth={2.5} />
       </button>
     </div>
   );

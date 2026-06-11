@@ -1,4 +1,5 @@
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api',
@@ -22,10 +23,24 @@ apiClient.interceptors.request.use(
 );
 
 apiClient.interceptors.response.use(
-  (response) => response.data,
+  (response) => {
+    // Check if the backend sent a success message
+    const successMessage = response.data?.message;
+    if (successMessage && typeof window !== 'undefined') {
+      toast.success(successMessage);
+    }
+    return response.data;
+  },
   (error) => {
-    // Optional: Global error handling
-    return Promise.reject(error.response?.data || error.message);
+    // Extract error message from backend response if available
+    const errorMessage = error.response?.data?.error || error.response?.data?.message || error.message || 'An error occurred';
+    
+    // Global error handling with toast
+    if (typeof window !== 'undefined') {
+      toast.error(errorMessage);
+    }
+    
+    return Promise.reject(error.response?.data || error);
   }
 );
 

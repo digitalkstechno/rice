@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Search, SlidersHorizontal } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Search, SlidersHorizontal, MoreVertical } from "lucide-react";
 import { Button } from "@/components/common/Button";
 import { cn } from "@/lib/utils";
 
@@ -107,50 +107,50 @@ export function DataTable<TData, TValue>({
             className="w-full bg-transparent text-[14px] outline-none placeholder:text-slate-400 font-medium text-slate-700"
           />
         </div>
-        <div className="flex items-center gap-2.5">
-          <Button variant="outline" size="sm" className="gap-2 h-10 px-4 rounded-xl font-bold">
-            <SlidersHorizontal size={16} />
-            Advanced Filters
-          </Button>
-        </div>
+
       </div>
 
-      <div className="enterprise-card overflow-hidden">
+      <div className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-sm">
         <div className="overflow-x-auto custom-scrollbar">
           <table className="w-full text-left border-collapse">
-            <thead className="bg-slate-50/50 border-b border-[var(--color-brand-table-border)] sticky top-0 z-10 backdrop-blur-md">
+            <thead className="bg-[#f4f7f9] border-b border-slate-200 sticky top-0 z-10">
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
                     <th
                       key={header.id}
-                      className="h-14 px-6 text-[11px] font-bold text-[var(--color-brand-table-header)] uppercase tracking-[0.1em] whitespace-nowrap"
+                      className="h-12 px-4 text-[13px] font-semibold text-slate-700 whitespace-nowrap border-r border-slate-200 last:border-r-0"
                     >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                      <div className="flex items-center justify-between gap-2">
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                        {header.column.id !== 'actions' && header.column.id !== 'action' && !header.isPlaceholder && (
+                          <MoreVertical size={14} className="text-slate-400 opacity-50" />
+                        )}
+                      </div>
                     </th>
                   ))}
                 </tr>
               ))}
             </thead>
-            <tbody className="divide-y divide-slate-100/60">
+            <tbody className="divide-y divide-slate-200 bg-white">
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <tr
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                     className={cn(
-                      "group transition-all duration-200 hover:bg-[var(--color-brand-table-hover)] data-[state=selected]:bg-[var(--color-brand-primary)]/5",
+                      "group transition-colors duration-200 hover:bg-slate-50 data-[state=selected]:bg-blue-50/50",
                       onRowClick && "cursor-pointer"
                     )}
                     onClick={() => onRowClick?.(row.original)}
                   >
                     {row.getVisibleCells().map((cell) => (
-                      <td key={cell.id} className="px-6 py-4 text-[13.5px] text-slate-600 font-semibold group-hover:text-slate-900 transition-colors">
+                      <td key={cell.id} className="px-4 py-3 text-[13.5px] text-slate-600 font-medium border-r border-slate-200 last:border-r-0">
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
                     ))}
