@@ -46,26 +46,26 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b bg-white/80 backdrop-blur-md px-8 border-slate-100/80">
-      
+
       <div className="flex items-center">
         <h1 className="text-[18px] font-extrabold text-slate-800 tracking-tight">{getPageTitle()}</h1>
       </div>
 
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
-          {mounted && (
-            <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-2.5 rounded-xl text-slate-500 hover:bg-slate-100/80 hover:text-slate-800 transition-all"
-            >
-              {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-          )}
+          {/* {mounted && (
+              <button
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                className="p-2.5 rounded-xl text-slate-500 hover:bg-slate-100/80 hover:text-slate-800 transition-all"
+              >
+                {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
+            )} */}
 
-          <button className="p-2.5 rounded-xl text-slate-500 hover:bg-slate-100/80 hover:text-slate-800 relative transition-all">
+          {/* <button className="p-2.5 rounded-xl text-slate-500 hover:bg-slate-100/80 hover:text-slate-800 relative transition-all">
             <Bell size={20} />
             <span className="absolute top-2.5 right-2.5 h-2 w-2 rounded-full bg-[var(--color-brand-danger)] ring-2 ring-white" />
-          </button>
+          </button> */}
         </div>
 
         <div className="h-6 w-px bg-slate-200 mx-1" />

@@ -100,6 +100,7 @@ export default function LeadsPage() {
       />
       <div className="bg-transparent p-0 mt-6">
         <DataTable
+          isLoading={isLoading}
           columns={columns}
           data={leads}
           searchPlaceholder="Search leads by name or company..."

@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -15,6 +16,7 @@ import {
 } from "@tanstack/react-table";
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Search, SlidersHorizontal, MoreVertical } from "lucide-react";
 import { Button } from "@/components/common/Button";
+import { Loader } from "@/components/common/Loader";
 import { cn } from "@/lib/utils";
 
 interface DataTableProps<TData, TValue> {
@@ -28,6 +30,7 @@ interface DataTableProps<TData, TValue> {
   totalRecords?: number;
   onServerPaginationChange?: (pageIndex: number, pageSize: number) => void;
   onServerSearchChange?: (search: string) => void;
+  isLoading?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -41,6 +44,7 @@ export function DataTable<TData, TValue>({
   totalRecords = 0,
   onServerPaginationChange,
   onServerSearchChange,
+  isLoading = false,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
@@ -125,9 +129,9 @@ export function DataTable<TData, TValue>({
                         {header.isPlaceholder
                           ? null
                           : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
-                            )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                         {header.column.id !== 'actions' && header.column.id !== 'action' && !header.isPlaceholder && (
                           <MoreVertical size={14} className="text-slate-400 opacity-50" />
                         )}
@@ -138,7 +142,13 @@ export function DataTable<TData, TValue>({
               ))}
             </thead>
             <tbody className="divide-y divide-slate-200 bg-white">
-              {table.getRowModel().rows?.length ? (
+              {isLoading ? (
+                <tr>
+                  <td colSpan={columns.length} className="h-48 text-center">
+                    <Loader text="Loading data..." />
+                  </td>
+                </tr>
+              ) : table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <tr
                     key={row.id}
@@ -160,10 +170,10 @@ export function DataTable<TData, TValue>({
                 <tr>
                   <td colSpan={columns.length} className="h-48 text-center">
                     <div className="flex flex-col items-center justify-center gap-3">
-                       <div className="h-12 w-12 rounded-full bg-slate-50 flex items-center justify-center text-slate-300">
-                          <Search size={24} />
-                       </div>
-                       <p className="text-[14px] text-slate-400 font-bold tracking-tight">No records found matching your search.</p>
+                      <div className="h-12 w-12 rounded-full bg-slate-50 flex items-center justify-center text-slate-300">
+                        <Search size={24} />
+                      </div>
+                      <p className="text-[14px] text-slate-400 font-bold tracking-tight">No records found matching your search.</p>
                     </div>
                   </td>
                 </tr>
@@ -175,7 +185,7 @@ export function DataTable<TData, TValue>({
 
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-4 py-3 bg-slate-50/50 border-t border-slate-200/60 rounded-b-2xl">
         <div className="flex items-center gap-2 text-[13px] font-bold text-slate-500">
-          Page Size: 
+          Page Size:
           <select
             value={table.getState().pagination.pageSize}
             onChange={(e) => {
@@ -190,9 +200,9 @@ export function DataTable<TData, TValue>({
             ))}
           </select>
         </div>
-        
+
         <div className="text-[13px] font-semibold text-slate-500">
-          {serverSide 
+          {serverSide
             ? `${(data || []).length === 0 ? 0 : table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} to ${Math.min((table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize, totalRecords)} of ${totalRecords}`
             : `${table.getFilteredRowModel().rows.length === 0 ? 0 : table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} to ${Math.min((table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize, table.getFilteredRowModel().rows.length)} of ${table.getFilteredRowModel().rows.length}`
           }

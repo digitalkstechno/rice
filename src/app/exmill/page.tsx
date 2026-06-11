@@ -99,6 +99,7 @@ export default function ExMillPage() {
       />
       <div className="bg-transparent p-0 mt-6">
         <DataTable
+          isLoading={isLoading}
           columns={columns}
           data={data}
           searchPlaceholder="Search variety or form..."

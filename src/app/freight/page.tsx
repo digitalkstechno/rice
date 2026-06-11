@@ -98,6 +98,7 @@ export default function FreightPage() {
       />
       <div className="bg-transparent p-0 mt-6">
         <DataTable
+          isLoading={isLoading}
           columns={columns}
           data={data}
           searchPlaceholder="Search country or port..."
