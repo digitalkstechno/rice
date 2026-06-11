@@ -94,7 +94,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex flex-1 items-center gap-3 max-w-md rounded-xl bg-slate-50/50 px-4 py-2 focus-within:ring-4 focus-within:ring-primary/5 focus-within:bg-white transition-all duration-300 group">
+        <div className="flex flex-1 items-center gap-3 max-w-md rounded-xl bg-white border border-slate-200 shadow-sm px-4 py-2.5 focus-within:ring-4 focus-within:ring-primary/10 focus-within:border-primary/30 transition-all duration-300 group">
           <Search size={18} className="text-slate-400 group-focus-within:text-primary transition-colors" />
           <input
             placeholder={searchPlaceholder}
