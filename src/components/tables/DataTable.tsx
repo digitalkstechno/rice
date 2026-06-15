@@ -76,6 +76,7 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    onGlobalFilterChange: setGlobalFilter,
     state: {
       sorting,
       columnFilters,
@@ -98,14 +99,18 @@ export function DataTable<TData, TValue>({
           <Search size={18} className="text-slate-400 group-focus-within:text-primary transition-colors" />
           <input
             placeholder={searchPlaceholder}
-            value={serverSide ? globalFilter : ((table.getColumn(searchColumn || "")?.getFilterValue() as string) ?? "")}
+            value={serverSide ? globalFilter : (searchColumn ? ((table.getColumn(searchColumn)?.getFilterValue() as string) ?? "") : globalFilter)}
             onChange={(event) => {
               if (serverSide) {
                 setGlobalFilter(event.target.value);
                 // Reset page to 0 when searching
                 table.setPageIndex(0);
               } else {
-                table.getColumn(searchColumn || "")?.setFilterValue(event.target.value);
+                if (searchColumn) {
+                  table.getColumn(searchColumn)?.setFilterValue(event.target.value);
+                } else {
+                  setGlobalFilter(event.target.value);
+                }
               }
             }}
             className="w-full bg-transparent text-[14px] outline-none placeholder:text-slate-400 font-medium text-slate-700"

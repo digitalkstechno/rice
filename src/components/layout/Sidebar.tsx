@@ -9,6 +9,8 @@ import {
   ChevronRight,
   Factory,
   LayoutDashboard,
+  Calculator,
+  Settings,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -28,6 +30,8 @@ const menuItems: MenuItem[] = [
   { icon: Users, label: "Leads", href: "/leads" },
   { icon: Factory, label: "ExMill", href: "/exmill" },
   { icon: Ship, label: "Freight", href: "/freight" },
+  { icon: Settings, label: "Packaging Master", href: "/packaging" },
+  { icon: Settings, label: "Settings", href: "/settings" },
 ];
 
 export function Sidebar() {
@@ -120,7 +124,7 @@ export function Sidebar() {
                 />
               )}
               {!isActive && !collapsed && (
-                 <div className="absolute inset-0 rounded-xl border border-transparent group-hover:border-slate-200/50 pointer-events-none" />
+                <div className="absolute inset-0 rounded-xl border border-transparent group-hover:border-slate-200/50 pointer-events-none" />
               )}
             </Link>
           );

@@ -24,6 +24,12 @@ export interface EndPointApi {
 
   // Settings
   settings: string;
+
+  // Packaging
+  packaging: string;
+
+  // Calculations
+  calculations: string;
 }
 
 const endPointApi: EndPointApi = {
@@ -52,6 +58,12 @@ const endPointApi: EndPointApi = {
 
   // Settings
   settings: 'settings',
+
+  // Packaging
+  packaging: 'packaging',
+
+  // Calculations
+  calculations: 'calculations',
 };
 
 export default endPointApi;
