@@ -13,27 +13,40 @@ import { Save } from "lucide-react";
 
 export default function SettingsPage() {
   const [dollarRate, setDollarRate] = useState<string>("");
+  const [inlandFreight, setInlandFreight] = useState<string>("");
+  const [customsThc, setCustomsThc] = useState<string>("");
+  
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    const fetchRate = async () => {
+    const fetchSettings = async () => {
       try {
-        const res = await settingService.getByKey('DOLLAR_RATE');
-        setDollarRate(res.data.value);
+        const [rateRes, inlandRes, customsRes] = await Promise.all([
+          settingService.getByKey('USD_INR_RATE').catch(() => ({ data: { value: "93.5" } })),
+          settingService.getByKey('INLAND_FREIGHT_INR').catch(() => ({ data: { value: "2000" } })),
+          settingService.getByKey('CUSTOMS_THC_INR').catch(() => ({ data: { value: "45000" } }))
+        ]);
+        setDollarRate(rateRes?.data?.value || "93.5");
+        setInlandFreight(inlandRes?.data?.value || "2000");
+        setCustomsThc(customsRes?.data?.value || "45000");
       } catch (error) {
-        console.error("Failed to fetch dollar rate");
+        console.error("Failed to fetch financial settings");
       }
     };
-    fetchRate();
+    fetchSettings();
   }, []);
 
-  const handleSave = async () => {
+  const handleSaveFinancials = async () => {
     setIsSaving(true);
     try {
-      await settingService.update('DOLLAR_RATE', dollarRate);
-      toast.success("Settings updated successfully!");
+      await Promise.all([
+        settingService.update('USD_INR_RATE', dollarRate),
+        settingService.update('INLAND_FREIGHT_INR', inlandFreight),
+        settingService.update('CUSTOMS_THC_INR', customsThc)
+      ]);
+      toast.success("Financial settings updated successfully!");
     } catch (error) {
-      toast.error("Failed to update settings");
+      toast.error("Failed to update financial settings");
     } finally {
       setIsSaving(false);
     }
@@ -66,26 +79,59 @@ export default function SettingsPage() {
                 <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider border-b border-slate-100 pb-2">
                   Financial Settings
                 </h3>
-                <div>
-                  <label className="block text-[13px] font-bold text-slate-700 mb-2 uppercase tracking-wide">
-                    Current Dollar Rate (USD to INR)
-                  </label>
-                  <div className="flex max-w-sm gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-[13px] font-bold text-slate-700 mb-2 uppercase tracking-wide">
+                      Current Dollar Rate (USD to INR)
+                    </label>
                     <input
                       type="number"
                       value={dollarRate}
                       onChange={(e) => setDollarRate(e.target.value)}
                       step="0.01"
                       placeholder="e.g. 83.50"
-                      className="flex-1 px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:border-brand-primary outline-none transition-all font-medium"
+                      className="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:border-brand-primary outline-none transition-all font-medium"
                     />
-                    <Button type="button" onClick={handleSave} disabled={isSaving}>
-                      {isSaving ? "Saving..." : "Save Rate"}
-                    </Button>
+                    <p className="mt-2 text-[13px] font-medium text-slate-500">
+                      Used globally for auto-calculating USD prices.
+                    </p>
                   </div>
-                  <p className="mt-2 text-[13px] font-medium text-slate-500">
-                    This rate will be used globally for auto-calculating USD prices.
-                  </p>
+                  <div>
+                    <label className="block text-[13px] font-bold text-slate-700 mb-2 uppercase tracking-wide">
+                      Inland Freight (Punjab → Mundra)
+                    </label>
+                    <input
+                      type="number"
+                      value={inlandFreight}
+                      onChange={(e) => setInlandFreight(e.target.value)}
+                      placeholder="e.g. 2000"
+                      className="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:border-brand-primary outline-none transition-all font-medium"
+                    />
+                    <p className="mt-2 text-[13px] font-medium text-slate-500">
+                      INR per MT
+                    </p>
+                  </div>
+                  <div>
+                    <label className="block text-[13px] font-bold text-slate-700 mb-2 uppercase tracking-wide">
+                      Customs & THC
+                    </label>
+                    <input
+                      type="number"
+                      value={customsThc}
+                      onChange={(e) => setCustomsThc(e.target.value)}
+                      placeholder="e.g. 45000"
+                      className="w-full px-4 py-2.5 rounded-xl border-2 border-slate-200 focus:border-brand-primary outline-none transition-all font-medium"
+                    />
+                    <p className="mt-2 text-[13px] font-medium text-slate-500">
+                      INR per 20ft container
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="pt-2">
+                  <Button type="button" onClick={handleSaveFinancials} disabled={isSaving}>
+                    {isSaving ? "Saving..." : "Save Financial Settings"}
+                  </Button>
                 </div>
               </div>
 
