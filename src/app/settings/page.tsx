@@ -18,32 +18,36 @@ export default function SettingsPage() {
   
   const [isSaving, setIsSaving] = useState(false);
 
+  const methods = useForm({
+    defaultValues: {
+      companyName: "RiseCRM Enterprise",
+    },
+  });
+
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const [rateRes, inlandRes, customsRes] = await Promise.all([
-          settingService.getByKey('USD_INR_RATE').catch(() => ({ data: { value: "93.5" } })),
-          settingService.getByKey('INLAND_FREIGHT_INR').catch(() => ({ data: { value: "2000" } })),
-          settingService.getByKey('CUSTOMS_THC_INR').catch(() => ({ data: { value: "45000" } }))
-        ]);
-        setDollarRate(rateRes?.data?.value || "93.5");
-        setInlandFreight(inlandRes?.data?.value || "2000");
-        setCustomsThc(customsRes?.data?.value || "45000");
+        const res = await settingService.getSettings().catch(() => ({ data: {} }));
+        const settings = res?.data || {};
+        setDollarRate(settings.usdInrRate?.toString() || "93.5");
+        setInlandFreight(settings.inlandFreight?.toString() || "2000");
+        setCustomsThc(settings.customsThc?.toString() || "45000");
+        methods.reset({ companyName: settings.companyName || "RiseCRM Enterprise" });
       } catch (error) {
         console.error("Failed to fetch financial settings");
       }
     };
     fetchSettings();
-  }, []);
+  }, [methods]);
 
   const handleSaveFinancials = async () => {
     setIsSaving(true);
     try {
-      await Promise.all([
-        settingService.update('USD_INR_RATE', dollarRate),
-        settingService.update('INLAND_FREIGHT_INR', inlandFreight),
-        settingService.update('CUSTOMS_THC_INR', customsThc)
-      ]);
+      await settingService.updateSettings({
+        usdInrRate: Number(dollarRate),
+        inlandFreight: Number(inlandFreight),
+        customsThc: Number(customsThc)
+      });
       toast.success("Financial settings updated successfully!");
     } catch (error) {
       toast.error("Failed to update financial settings");
@@ -52,15 +56,15 @@ export default function SettingsPage() {
     }
   };
 
-  const methods = useForm({
-    defaultValues: {
-      companyName: "RiseCRM Enterprise",
-    },
-  });
-
-  const onSubmit = (data: Record<string, unknown>) => {
-    console.log("Saved Settings:", data);
-    alert("Settings saved successfully!");
+  const onSubmit = async (data: any) => {
+    try {
+      await settingService.updateSettings({
+        companyName: data.companyName
+      });
+      toast.success("General preferences saved successfully!");
+    } catch(err) {
+      toast.error("Failed to save general preferences");
+    }
   };
 
   return (

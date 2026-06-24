@@ -1,17 +1,19 @@
 import apiClient from './apiClient';
 import endPointApi from '../config/endpoints';
 
-export interface Setting {
+export interface Settings {
   _id?: string;
-  key: string;
-  value: string;
+  usdInrRate: number;
+  inlandFreight: number;
+  customsThc: number;
+  companyName: string;
 }
 
 export const settingService = {
-  getByKey: async (key: string) => {
-    return await apiClient.get(`${endPointApi.settings}/${key}`);
+  getSettings: async () => {
+    return await apiClient.get(`${endPointApi.settings}`);
   },
-  update: async (key: string, value: string) => {
-    return await apiClient.put(`${endPointApi.settings}/${key}`, { value });
+  updateSettings: async (settingsData: Partial<Settings>) => {
+    return await apiClient.put(`${endPointApi.settings}`, settingsData);
   },
 };

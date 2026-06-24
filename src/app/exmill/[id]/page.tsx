@@ -51,9 +51,9 @@ export default function ExmillAddEditPage() {
   useEffect(() => {
     const fetchRate = async () => {
       try {
-        const res = await settingService.getByKey('DOLLAR_RATE');
-        if (res.data && res.data.value) {
-          setDollarRate(Number(res.data.value));
+        const res = await settingService.getSettings();
+        if (res.data && res.data.usdInrRate) {
+          setDollarRate(Number(res.data.usdInrRate));
         }
       } catch (error) {
         console.error("Could not fetch Dollar Rate, using fallback.");
