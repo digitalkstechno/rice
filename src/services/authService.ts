@@ -37,11 +37,11 @@ export const authService = {
     return await apiClient.put(`${endPointApi.authResetPassword}/${token}`, { password });
   },
 
-  updateDetails: async (data: { name?: string; email?: string }) => {
+  updateDetails: async (data: { name?: string; email?: string }): Promise<any> => {
     return await apiClient.put(endPointApi.authUpdateDetails, data);
   },
 
-  updatePassword: async (data: Record<string, string>) => {
+  updatePassword: async (data: Record<string, string>): Promise<any> => {
     return await apiClient.put(endPointApi.authUpdatePassword, data);
   },
 
